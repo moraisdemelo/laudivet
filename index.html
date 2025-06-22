@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Laudi Vet - Clínica e Cirurgia Especializada</title>
@@ -725,7 +724,8 @@
             }
         }
     </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head>
+
 <body>
 <header class="header">
 <div class="header-container">
@@ -824,7 +824,7 @@
 <button class="btn btn-primary" type="submit">
 <i class="fas fa-file-pdf"></i> Gerar Receituário
                         </button>
-<button class="btn btn-success" id="btnPdf" type="button">📄 Gerar PDF</button><button class="btn btn-primary" id="btnSharePdf" type="button">📤 Compartilhar PDF com Tutor</button></div>
+<button class="btn btn-success" id="btnPdf" onclick="gerarReceituarioPDF()" type="button">📄 Gerar PDF</button><button class="btn btn-primary" id="btnSharePdf" type="button">📤 Compartilhar PDF com Tutor</button></div>
 </div>
 </form>
 </section>
@@ -1484,84 +1484,56 @@
             toggleShareButton();
         });
     </script>
-<div id="print-area" style="position: absolute; left: -9999px; top: 0;"></div><script>const { jsPDF } = window.jspdf;
+<div id="print-area" style="position: absolute; left: -9999px; top: 0;"></div><script>
+async function gerarReceituarioPDF() {
+    const elemento = document.getElementById("receituario-gerado");
+    if (!elemento) {
+        alert("Receituário não encontrado.");
+        return;
+    }
 
-function gerarConteudoParaImpressao() {
-    const nomeTutor = document.getElementById('nomeTutor')?.value || '';
-    const nomeAnimal = document.getElementById('nomeAnimal')?.value || '';
-    const prescricao = document.getElementById('prescricao')?.value?.replace(/\n/g, '<br>') || '';
-    const recomendacoes = document.getElementById('recomendacoes')?.value?.replace(/\n/g, '<br>') || '';
+    const spanData = document.getElementById("pdf-data");
+    const hoje = new Date();
+    spanData.textContent = hoje.toLocaleDateString();
 
-    return `
-        <div style="padding: 20px; font-family: Arial, sans-serif;">
-            <h1 style="color: #4CAF50;">Laudi Vet</h1>
-            <h2>Receituário</h2>
-            <p><strong>Tutor:</strong> ${nomeTutor}</p>
-            <p><strong>Animal:</strong> ${nomeAnimal}</p>
-            <hr>
-            <h3>Prescrição</h3>
-            <p>${prescricao}</p>
-            <h3>Recomendações</h3>
-            <p>${recomendacoes}</p>
-            <br><br>
-            <p style="text-align: center;">Laudiceia de Jesus Morais<br>CRMV-MA 2274</p>
-        </div>
-    `;
+    const canvas = await html2canvas(elemento, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const imgWidth = pageWidth - 40;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 20, 20, imgWidth, imgHeight);
+    pdf.save("receituario_laudi_vet.pdf");
 }
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const btnPdf = document.getElementById('btnPdf');
-    const btnSharePdf = document.getElementById('btnSharePdf');
-
-    if (btnPdf) {
-        btnPdf.addEventListener('click', async () => {
-            await gerarReceituarioPDF(false);
-        });
-    }
-
-    if (btnSharePdf) {
-        btnSharePdf.addEventListener('click', async () => {
-            await gerarReceituarioPDF(true);
-        });
-    }
-
-    async function gerarReceituarioPDF(compartilhar = false) {
-        const area = document.getElementById("print-area");
-        area.innerHTML = gerarConteudoParaImpressao();
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const canvas = await html2canvas(area, { scale: 2 });
-        const imgData = canvas.toDataURL('image/png');
-
-        // Usando jsPDF direto (versão legacy)
-        const pdf = new jsPDF('p', 'pt', 'a4');
-        const width = pdf.internal.pageSize.getWidth();
-        const height = (canvas.height * width) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-
-        if (!compartilhar) {
-            pdf.save('receituario-laudivet.pdf');
-        } else {
-            const blob = pdf.output('blob');
-            const file = new File([blob], "receituario-laudivet.pdf", { type: "application/pdf" });
-
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        title: "Receituário LaudiVet",
-                        text: "Segue o receituário em PDF.",
-                        files: [file]
-                    });
-                } catch (err) {
-                    alert("Erro ao compartilhar: " + err.message);
-                }
-            } else {
-                alert("Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
-            }
-        }
-    }
-});
-</script></body>
+</script><div id="receituario-gerado" style="max-width: 800px; margin: auto; padding: 30px; font-family: Arial, sans-serif; position: relative; background: white; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+<img alt="Logo" src="logo-laudi-vet.png" style="height: 80px;"/>
+<div>
+<h2 style="color: #4CAF50; margin: 0;">Laudi Vet</h2>
+<strong style="color: #4CAF50;">CLÍNICA E CIRURGIA ESPECIALIZADA</strong>
+</div>
+</div>
+<p style="margin-top: 10px;">Laudiceia de Jesus Morais<br/>CRMV-MA 2274</p>
+<h3 style="color: #4CAF50; border-bottom: 1px solid #ccc; padding-bottom: 5px;">DADOS DO PACIENTE</h3>
+<p><strong>Tutor:</strong> <span id="pdf-tutor"></span></p>
+<p><strong>Animal:</strong> <span id="pdf-animal"></span></p>
+<h3 style="color: #4CAF50; margin-top: 20px;">PRESCRIÇÃO</h3>
+<div id="pdf-prescricao" style="white-space: pre-line;"></div>
+<h3 style="color: #4CAF50; margin-top: 20px;">RECOMENDAÇÕES</h3>
+<div id="pdf-recomendacoes" style="white-space: pre-line;"></div>
+<p style="margin-top: 40px;"><strong>Imperatriz/MA, <span id="pdf-data"></span></strong></p>
+<p style="text-align: center; margin-top: 60px;">
+    _______________________________________<br/>
+    Laudiceia de Jesus Morais<br/>
+    CRMV-MA 2274
+</p>
+<img src="ICONE_logo-laudi-vet.png" style="position: absolute; bottom: 60px; right: 30px; height: 250px; opacity: 0.05; z-index: 0;"/>
+<div style="margin-top: 60px; font-size: 13px; text-align: center; border-top: 1px solid #ccc; padding-top: 12px;">
+    Rua Tamandaré, 383, Mercadinho, Imperatriz/MA | (99) 98524-1878<br/>
+    jesus_laudiceia17@hotmail.com | @_laudivet
+</div>
+</div></body>
 </html>
