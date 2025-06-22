@@ -724,24 +724,8 @@
                 padding: 0 2rem;
             }
         }
-    
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-  .container, .conteudo, .formulario {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-  input, button, textarea, select {
-    width: 100% !important;
-    font-size: 1rem;
-  }
-}
-</style>
-</head>
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head>
 <body>
 <header class="header">
 <div class="header-container">
@@ -1420,42 +1404,8 @@
                             <p>Rua Tamandaré, 383, Mercadinho, Imperatriz/MA | (99) 98524-1878</p>
                             <p>jesus_laudiceia17@hotmail.com | @_laudi27</p>
                         </div>
-                    <script>
-function mostrarReceita() {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-  if (isIOS) {
-    const conteudo = document.getElementById('conteudo-receita').innerHTML;
-    const novaJanela = window.open('', '_blank');
-    novaJanela.document.write(\`
-      <html>
-        <head>
-          <title>Receita</title>
-          <link rel="stylesheet" href="styles.css">
-          <style>
-            body.show-watermark {
-              background-image: url('watermark-laudi-vet.png');
-              background-position: center;
-              background-repeat: no-repeat;
-              background-size: 80%;
-              opacity: 0.4;
-            }
-          </style>
-        </head>
-        <body class="show-watermark">
-          \${conteudo}
-        </body>
-      </html>
-    \`);
-    novaJanela.document.close();
-  } else {
-    document.body.classList.add("show-watermark");
-    window.print();
-  }
-}
-</script>
-</body>
-</html>
+                    </body>
+                    </html>
                 `;
 
                 return conteudo;
@@ -1504,68 +1454,53 @@ function mostrarReceita() {
 
             // Gerar receituário para impressão
             receituarioForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Gerar conteúdo HTML para impressão
-                const conteudoImpressao = gerarConteudoParaImpressao();
-                
-                // Abrir nova janela para impressão
-                const janelaImpressao = window.open('', '_blank');
-                janelaImpressao.document.open();
-                janelaImpressao.document.write(conteudoImpressao);
-                janelaImpressao.document.close();
-                
-                // Esperar o conteúdo carregar e acionar impressão
-                setTimeout(() =&gt; {
-                    janelaImpressao.print();
-                }, 500);
-                
-                // Limpar formulário
-                receituarioForm.reset();
-                tipoReceita.value = 'simples';
-                toggleCamposEspeciais();
-                btnSimples.classList.add('active');
-                btnEspecial.classList.remove('active');
-                btnShare.disabled = true;
-            });
+    e.preventDefault();
+
+    gerarReceituarioPDF();
+
+    receituarioForm.reset();
+    tipoReceita.value = 'simples';
+    toggleCamposEspeciais();
+    btnSimples.classList.add('active');
+    btnEspecial.classList.remove('active');
+    btnShare.disabled = true;
+});
 
             // Inicializar
             toggleCamposEspeciais();
             toggleShareButton();
         });
     
-<script>
-function mostrarReceita() {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-  if (isIOS) {
-    const conteudo = document.getElementById('conteudo-receita').innerHTML;
-    const novaJanela = window.open('', '_blank');
-    novaJanela.document.write(\`
-      <html>
-        <head>
-          <title>Receita</title>
-          <link rel="stylesheet" href="styles.css">
-          <style>
-            body.show-watermark {
-              background-image: url('watermark-laudi-vet.png');
-              background-position: center;
-              background-repeat: no-repeat;
-              background-size: 80%;
-              opacity: 0.4;
-            }
-          </style>
-        </head>
-        <body class="show-watermark">
-          \${conteudo}
-        </body>
-      </html>
-    \`);
-    novaJanela.document.close();
-  } else {
-    document.body.classList.add("show-watermark");
-    window.print();
-  }
+async function gerarReceituarioPDF() {
+    const conteudo = gerarConteudoParaImpressao(); // Essa função já existe no seu código
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(conteudo);
+    doc.close();
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const area = iframe.contentDocument.body;
+
+    const canvas = await html2canvas(area, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const width = pdf.internal.pageSize.getWidth();
+    const height = (canvas.height * width) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+    pdf.save('receituario-laudivet.pdf');
+
+    document.body.removeChild(iframe);
 }
-</script>
-
+        </script>
+</body>
+</html>
