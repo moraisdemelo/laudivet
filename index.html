@@ -1502,20 +1502,34 @@ function gerarConteudoParaImpressao() {
     const nomeAnimal = document.getElementById('nomeAnimal')?.value || '';
     const prescricao = document.getElementById('prescricao')?.value?.replace(/\n/g, '<br>') || '';
     const recomendacoes = document.getElementById('recomendacoes')?.value?.replace(/\n/g, '<br>') || '';
+    const data = new Date().toLocaleDateString('pt-BR');
 
     return `
-        <div style="padding: 20px; font-family: Arial, sans-serif;">
-            <h1 style="color: #4CAF50;">Laudi Vet</h1>
-            <h2>Receituário</h2>
+        <div style="position: relative; padding: 40px; font-family: Arial, sans-serif;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.1; z-index: -1;">
+                <img src="ICONE_logo-laudi-vet.png" style="width: 300px; height: auto;" />
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <img src="logo-laudi-vet.png" style="height: 80px; width: auto; margin-right: 15px;" />
+                <div>
+                    <h1 style="color: #4CAF50; margin: 0;">Laudi Vet</h1>
+                    <p style="color: #81C784; margin: 0; font-weight: bold;">CLÍNICA E CIRURGIA ESPECIALIZADA</p>
+                </div>
+            </div>
+            <div style="border-top: 2px solid #4CAF50; margin: 15px 0 20px;"></div>
+            <h2 style="color: #4CAF50; margin-bottom: 10px;">Receituário</h2>
             <p><strong>Tutor:</strong> ${nomeTutor}</p>
             <p><strong>Animal:</strong> ${nomeAnimal}</p>
-            <hr>
-            <h3>Prescrição</h3>
+            <h3 style="color: #4CAF50; margin-top: 20px;">Prescrição</h3>
             <p>${prescricao}</p>
-            <h3>Recomendações</h3>
+            <h3 style="color: #4CAF50; margin-top: 20px;">Recomendações</h3>
             <p>${recomendacoes}</p>
-            <br><br>
-            <p style="text-align: center;">Laudiceia de Jesus Morais<br>CRMV-MA 2274</p>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="margin-bottom: 30px;">Data: ${data}</p>
+                <div style="border-top: 1px solid #000; width: 250px; margin: 0 auto 10px auto;"></div>
+                <p style="font-weight: bold; margin: 0;">Laudiceia de Jesus Morais</p>
+                <p style="margin: 0;">CRMV-MA 2274</p>
+            </div>
         </div>
     `;
 }
