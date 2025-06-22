@@ -824,7 +824,7 @@
 <button class="btn btn-primary" type="submit">
 <i class="fas fa-file-pdf"></i> Gerar Receituário
                         </button>
-</div>
+<button class="btn btn-success" id="btnPdf" type="button">📄 Gerar PDF</button><button class="btn btn-primary" id="btnSharePdf" type="button">📤 Compartilhar PDF com Tutor</button></div>
 </div>
 </form>
 </section>
@@ -1453,10 +1453,23 @@
             btnShare.addEventListener('click', compartilharReceituario);
 
             // Gerar receituário para impressão
-            receituarioForm.addEventListener('submit', function(e) {
+            
+receituarioForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    gerarReceituarioPDF();
+    const conteudoImpressao = gerarConteudoParaImpressao();
+    const janelaImpressao = window.open('', '_blank');
+    if (janelaImpressao) {
+        janelaImpressao.document.open();
+        janelaImpressao.document.write(conteudoImpressao);
+        janelaImpressao.document.close();
+        setTimeout(() => {
+            janelaImpressao.focus();
+            janelaImpressao.print();
+        }, 500);
+    } else {
+        alert('O navegador bloqueou a janela de impressão. Verifique as configurações do Safari.');
+    }
 
     receituarioForm.reset();
     tipoReceita.value = 'simples';
@@ -1466,28 +1479,26 @@
     btnShare.disabled = true;
 });
 
+
             // Inicializar
             toggleCamposEspeciais();
             toggleShareButton();
         });
     
 
-async function gerarReceituarioPDF() {
-    const conteudo = gerarConteudoParaImpressao(); // Essa função já existe no seu código
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'absolute';
-    iframe.style.left = '-9999px';
-    document.body.appendChild(iframe);
+document.getElementById('btnPdf').addEventListener('click', async () => {
+    await gerarReceituarioPDF(false);
+});
 
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(conteudo);
-    doc.close();
+document.getElementById('btnSharePdf').addEventListener('click', async () => {
+    await gerarReceituarioPDF(true);
+});
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+async function gerarReceituarioPDF(compartilhar = false) {
+    const area = document.getElementById("print-area");
+    area.innerHTML = gerarConteudoParaImpressao();
 
-    const area = iframe.contentDocument.body;
-
+    await new Promise(resolve => setTimeout(resolve, 500));
     const canvas = await html2canvas(area, { scale: 2 });
     const imgData = canvas.toDataURL('image/png');
 
@@ -1495,12 +1506,29 @@ async function gerarReceituarioPDF() {
     const pdf = new jsPDF('p', 'pt', 'a4');
     const width = pdf.internal.pageSize.getWidth();
     const height = (canvas.height * width) / canvas.width;
-
     pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-    pdf.save('receituario-laudivet.pdf');
 
-    document.body.removeChild(iframe);
+    if (!compartilhar) {
+        pdf.save('receituario-laudivet.pdf');
+    } else {
+        const blob = pdf.output('blob');
+        const file = new File([blob], "receituario-laudivet.pdf", { type: "application/pdf" });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({
+                    title: "Receituário LaudiVet",
+                    text: "Segue o receituário em PDF.",
+                    files: [file]
+                });
+            } catch (err) {
+                alert("Erro ao compartilhar: " + err.message);
+            }
+        } else {
+            alert("Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
+        }
+    }
 }
-        </script>
-</body>
+</script>
+<div id="print-area" style="display:none;"></div></body>
 </html>
