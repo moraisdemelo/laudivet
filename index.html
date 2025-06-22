@@ -1453,82 +1453,89 @@
             btnShare.addEventListener('click', compartilharReceituario);
 
             // Gerar receituário para impressão
-            
-receituarioForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const conteudoImpressao = gerarConteudoParaImpressao();
-    const janelaImpressao = window.open('', '_blank');
-    if (janelaImpressao) {
-        janelaImpressao.document.open();
-        janelaImpressao.document.write(conteudoImpressao);
-        janelaImpressao.document.close();
-        setTimeout(() => {
-            janelaImpressao.focus();
-            janelaImpressao.print();
-        }, 500);
-    } else {
-        alert('O navegador bloqueou a janela de impressão. Verifique as configurações do Safari.');
-    }
-
-    receituarioForm.reset();
-    tipoReceita.value = 'simples';
-    toggleCamposEspeciais();
-    btnSimples.classList.add('active');
-    btnEspecial.classList.remove('active');
-    btnShare.disabled = true;
-});
-
+            receituarioForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Gerar conteúdo HTML para impressão
+                const conteudoImpressao = gerarConteudoParaImpressao();
+                
+                // Abrir nova janela para impressão
+                const janelaImpressao = window.open('', '_blank');
+                janelaImpressao.document.open();
+                janelaImpressao.document.write(conteudoImpressao);
+                janelaImpressao.document.close();
+                
+                // Esperar o conteúdo carregar e acionar impressão
+                setTimeout(() => {
+                    janelaImpressao.print();
+                }, 500);
+                
+                // Limpar formulário
+                receituarioForm.reset();
+                tipoReceita.value = 'simples';
+                toggleCamposEspeciais();
+                btnSimples.classList.add('active');
+                btnEspecial.classList.remove('active');
+                btnShare.disabled = true;
+            });
 
             // Inicializar
             toggleCamposEspeciais();
             toggleShareButton();
         });
-    
+    </script>
+<div id="print-area" style="display:none;"></div><script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnPdf = document.getElementById('btnPdf');
+    const btnSharePdf = document.getElementById('btnSharePdf');
 
-document.getElementById('btnPdf').addEventListener('click', async () => {
-    await gerarReceituarioPDF(false);
-});
+    if (btnPdf) {
+        btnPdf.addEventListener('click', async () => {
+            await gerarReceituarioPDF(false);
+        });
+    }
 
-document.getElementById('btnSharePdf').addEventListener('click', async () => {
-    await gerarReceituarioPDF(true);
-});
+    if (btnSharePdf) {
+        btnSharePdf.addEventListener('click', async () => {
+            await gerarReceituarioPDF(true);
+        });
+    }
 
-async function gerarReceituarioPDF(compartilhar = false) {
-    const area = document.getElementById("print-area");
-    area.innerHTML = gerarConteudoParaImpressao();
+    async function gerarReceituarioPDF(compartilhar = false) {
+        const area = document.getElementById("print-area");
+        area.innerHTML = gerarConteudoParaImpressao();
 
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const canvas = await html2canvas(area, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const canvas = await html2canvas(area, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'pt', 'a4');
-    const width = pdf.internal.pageSize.getWidth();
-    const height = (canvas.height * width) / canvas.width;
-    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        const width = pdf.internal.pageSize.getWidth();
+        const height = (canvas.height * width) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
 
-    if (!compartilhar) {
-        pdf.save('receituario-laudivet.pdf');
-    } else {
-        const blob = pdf.output('blob');
-        const file = new File([blob], "receituario-laudivet.pdf", { type: "application/pdf" });
-
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-                await navigator.share({
-                    title: "Receituário LaudiVet",
-                    text: "Segue o receituário em PDF.",
-                    files: [file]
-                });
-            } catch (err) {
-                alert("Erro ao compartilhar: " + err.message);
-            }
+        if (!compartilhar) {
+            pdf.save('receituario-laudivet.pdf');
         } else {
-            alert("Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
+            const blob = pdf.output('blob');
+            const file = new File([blob], "receituario-laudivet.pdf", { type: "application/pdf" });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: "Receituário LaudiVet",
+                        text: "Segue o receituário em PDF.",
+                        files: [file]
+                    });
+                } catch (err) {
+                    alert("Erro ao compartilhar: " + err.message);
+                }
+            } else {
+                alert("Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
+            }
         }
     }
-}
-</script>
-<div id="print-area" style="display:none;"></div></body>
+});
+</script></body>
 </html>
