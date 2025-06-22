@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laudi Vet - Clínica e Cirurgia Especializada</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Laudi Vet - Clínica e Cirurgia Especializada</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
         :root {
             --primary: #4CAF50;
             --primary-light: #81C784;
@@ -723,155 +724,158 @@
                 padding: 0 2rem;
             }
         }
-    </style>
+    
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .container, .conteudo, .formulario {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  input, button, textarea, select {
+    width: 100% !important;
+    font-size: 1rem;
+  }
+}
+</style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="logo-laudi-vet.png" alt="Laudi Vet" class="logo">
-                <div class="clinic-info">
-                    <h1>Laudi Vet</h1>
-                    <p>CLÍNICA E CIRURGIA ESPECIALIZADA</p>
-                </div>
-            </div>
-            
-            <nav class="navbar">
-                <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-home"></i> Início</a></li>
-                    <li><a href="#"><i class="fas fa-hand-holding-medical"></i> Serviços</a></li>
-                    <li><a href="#"><i class="fas fa-file-prescription"></i> Receituários</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> Contato</a></li>
-                </ul>
-                <button class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="receituario-section">
-            <h2><i class="fas fa-file-medical"></i> Gerar Receituário</h2>
-            <div class="receituario-options">
-                <button id="btnSimples" class="active"><i class="fas fa-file-alt"></i> Receituário Simples</button>
-                <button id="btnEspecial"><i class="fas fa-file-medical-alt"></i> Controle Especial</button>
-            </div>
-
-            <form id="receituarioForm" class="receituario-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="tipoReceita"><i class="fas fa-tag"></i> Tipo de Receita:</label>
-                        <select id="tipoReceita" required>
-                            <option value="simples">Receituário Simples</option>
-                            <option value="especial">Controle Especial</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nomeTutor"><i class="fas fa-user"></i> Nome do Tutor:</label>
-                        <input type="text" id="nomeTutor" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nomeAnimal"><i class="fas fa-paw"></i> Nome do Animal:</label>
-                        <input type="text" id="nomeAnimal" required>
-                    </div>
-                </div>
-
-                <div id="camposEspeciais" class="hidden">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="especie"><i class="fas fa-dog"></i> Espécie:</label>
-                            <input type="text" id="especie">
-                        </div>
-                        <div class="form-group">
-                            <label for="raca"><i class="fas fa-dna"></i> Raça:</label>
-                            <input type="text" id="raca">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="endereco"><i class="fas fa-map-marker-alt"></i> Endereço:</label>
-                            <input type="text" id="endereco">
-                        </div>
-                        <div class="form-group">
-                            <label for="peso"><i class="fas fa-weight"></i> Peso:</label>
-                            <input type="text" id="peso">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="idade"><i class="fas fa-birthday-cake"></i> Idade:</label>
-                            <input type="text" id="idade">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="prescricao"><i class="fas fa-prescription-bottle-alt"></i> Prescrição:</label>
-                    <textarea id="prescricao" rows="5" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="recomendacoes"><i class="fas fa-heart"></i> Recomendações:</label>
-                    <textarea id="recomendacoes" rows="3"></textarea>
-                </div>
-
-                <div class="form-footer">
-                    <div class="veterinario-info">
-                        <p><i class="fas fa-user-md"></i> Laudiceia de Jesus Morais</p>
-                        <p><i class="fas fa-id-card"></i> CRMV-MA 2274</p>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" id="btnShare" class="btn btn-success" disabled>
-                            <i class="fas fa-share-alt"></i> Compartilhar com Tutor
+<header class="header">
+<div class="header-container">
+<div class="logo-container">
+<img alt="Laudi Vet" class="logo" src="logo-laudi-vet.png"/>
+<div class="clinic-info">
+<h1>Laudi Vet</h1>
+<p>CLÍNICA E CIRURGIA ESPECIALIZADA</p>
+</div>
+</div>
+<nav class="navbar">
+<ul class="nav-links">
+<li><a href="#"><i class="fas fa-home"></i> Início</a></li>
+<li><a href="#"><i class="fas fa-hand-holding-medical"></i> Serviços</a></li>
+<li><a href="#"><i class="fas fa-file-prescription"></i> Receituários</a></li>
+<li><a href="#"><i class="fas fa-envelope"></i> Contato</a></li>
+</ul>
+<button class="menu-toggle">
+<i class="fas fa-bars"></i>
+</button>
+</nav>
+</div>
+</header>
+<main class="container">
+<section class="receituario-section">
+<h2><i class="fas fa-file-medical"></i> Gerar Receituário</h2>
+<div class="receituario-options">
+<button class="active" id="btnSimples"><i class="fas fa-file-alt"></i> Receituário Simples</button>
+<button id="btnEspecial"><i class="fas fa-file-medical-alt"></i> Controle Especial</button>
+</div>
+<form class="receituario-form" id="receituarioForm">
+<div class="form-row">
+<div class="form-group">
+<label for="tipoReceita"><i class="fas fa-tag"></i> Tipo de Receita:</label>
+<select id="tipoReceita" required="">
+<option value="simples">Receituário Simples</option>
+<option value="especial">Controle Especial</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="nomeTutor"><i class="fas fa-user"></i> Nome do Tutor:</label>
+<input id="nomeTutor" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="nomeAnimal"><i class="fas fa-paw"></i> Nome do Animal:</label>
+<input id="nomeAnimal" required="" type="text"/>
+</div>
+</div>
+<div class="hidden" id="camposEspeciais">
+<div class="form-row">
+<div class="form-group">
+<label for="especie"><i class="fas fa-dog"></i> Espécie:</label>
+<input id="especie" type="text"/>
+</div>
+<div class="form-group">
+<label for="raca"><i class="fas fa-dna"></i> Raça:</label>
+<input id="raca" type="text"/>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="endereco"><i class="fas fa-map-marker-alt"></i> Endereço:</label>
+<input id="endereco" type="text"/>
+</div>
+<div class="form-group">
+<label for="peso"><i class="fas fa-weight"></i> Peso:</label>
+<input id="peso" type="text"/>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="idade"><i class="fas fa-birthday-cake"></i> Idade:</label>
+<input id="idade" type="text"/>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="prescricao"><i class="fas fa-prescription-bottle-alt"></i> Prescrição:</label>
+<textarea id="prescricao" required="" rows="5"></textarea>
+</div>
+<div class="form-group">
+<label for="recomendacoes"><i class="fas fa-heart"></i> Recomendações:</label>
+<textarea id="recomendacoes" rows="3"></textarea>
+</div>
+<div class="form-footer">
+<div class="veterinario-info">
+<p><i class="fas fa-user-md"></i> Laudiceia de Jesus Morais</p>
+<p><i class="fas fa-id-card"></i> CRMV-MA 2274</p>
+</div>
+<div class="form-actions">
+<button class="btn btn-success" disabled="" id="btnShare" type="button">
+<i class="fas fa-share-alt"></i> Compartilhar com Tutor
                         </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-file-pdf"></i> Gerar Receituário
+<button class="btn btn-primary" type="submit">
+<i class="fas fa-file-pdf"></i> Gerar Receituário
                         </button>
-                    </div>
-                </div>
-            </form>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Contato</h3>
-                <div class="contact-info">
-                    <p><i class="fas fa-phone"></i> <a href="tel:99985241878">(99) 98524-1878</a></p>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:jesus_laudiceia17@hotmail.com">jesus_laudiceia17@hotmail.com</a></p>
-                    <p><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 8h às 12h</p>
-                </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Endereço</h3>
-                <div class="address">
-                    <p><i class="fas fa-map-marker-alt"></i> Rua Tamandaré, 383</p>
-                    <p><i class="fas fa-city"></i> Mercadinho, Imperatriz/MA</p>
-                </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Redes Sociais</h3>
-                <div class="social-links">
-                    <a href="https://instagram.com/_laudi27" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 Laudi Vet - Clínica e Cirurgia Especializada. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
-    <script>
+</div>
+</div>
+</form>
+</section>
+</main>
+<footer class="footer">
+<div class="footer-container">
+<div class="footer-column">
+<h3>Contato</h3>
+<div class="contact-info">
+<p><i class="fas fa-phone"></i> <a href="tel:99985241878">(99) 98524-1878</a></p>
+<p><i class="fas fa-envelope"></i> <a href="mailto:jesus_laudiceia17@hotmail.com">jesus_laudiceia17@hotmail.com</a></p>
+<p><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 8h às 12h</p>
+</div>
+</div>
+<div class="footer-column">
+<h3>Endereço</h3>
+<div class="address">
+<p><i class="fas fa-map-marker-alt"></i> Rua Tamandaré, 383</p>
+<p><i class="fas fa-city"></i> Mercadinho, Imperatriz/MA</p>
+</div>
+</div>
+<div class="footer-column">
+<h3>Redes Sociais</h3>
+<div class="social-links">
+<a href="https://instagram.com/_laudi27" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+<a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+</div>
+</div>
+</div>
+<div class="copyright">
+<p>© 2023 Laudi Vet - Clínica e Cirurgia Especializada. Todos os direitos reservados.</p>
+</div>
+</footer>
+<script>
         document.addEventListener('DOMContentLoaded', function() {
             // Banco de dados de medicamentos veterinários
             const medicamentosVeterinarios = {
@@ -1451,7 +1455,7 @@ function mostrarReceita() {
 }
 </script>
 </body>
-                    </html>
+</html>
                 `;
 
                 return conteudo;
@@ -1512,7 +1516,7 @@ function mostrarReceita() {
                 janelaImpressao.document.close();
                 
                 // Esperar o conteúdo carregar e acionar impressão
-                setTimeout(() => {
+                setTimeout(() =&gt; {
                     janelaImpressao.print();
                 }, 500);
                 
@@ -1529,7 +1533,7 @@ function mostrarReceita() {
             toggleCamposEspeciais();
             toggleShareButton();
         });
-    </script>
+    
 <script>
 function mostrarReceita() {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -1564,5 +1568,4 @@ function mostrarReceita() {
   }
 }
 </script>
-</body>
-</html>
+
