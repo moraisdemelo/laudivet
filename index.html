@@ -1484,7 +1484,32 @@
             toggleShareButton();
         });
     </script>
-<div id="print-area" style="display:none;"></div><script>
+<div id="print-area" style="position: absolute; left: -9999px; top: 0;"></div><script>
+function gerarConteudoParaImpressao() {
+    const nomeTutor = document.getElementById('nomeTutor')?.value || '';
+    const nomeAnimal = document.getElementById('nomeAnimal')?.value || '';
+    const prescricao = document.getElementById('prescricao')?.value?.replace(/\n/g, '<br>') || '';
+    const recomendacoes = document.getElementById('recomendacoes')?.value?.replace(/\n/g, '<br>') || '';
+
+    return `
+        <div style="padding: 20px; font-family: Arial, sans-serif;">
+            <h1 style="color: #4CAF50;">Laudi Vet</h1>
+            <h2>Receituário</h2>
+            <p><strong>Tutor:</strong> ${nomeTutor}</p>
+            <p><strong>Animal:</strong> ${nomeAnimal}</p>
+            <hr>
+            <h3>Prescrição</h3>
+            <p>${prescricao}</p>
+            <h3>Recomendações</h3>
+            <p>${recomendacoes}</p>
+            <br><br>
+            <p style="text-align: center;">Laudiceia de Jesus Morais<br>CRMV-MA 2274</p>
+        </div>
+    `;
+}
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const btnPdf = document.getElementById('btnPdf');
     const btnSharePdf = document.getElementById('btnSharePdf');
@@ -1502,15 +1527,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function gerarReceituarioPDF(compartilhar = false) {
-  console.log('📄 Iniciando geração do PDF...');
-  alert('Iniciando geração do PDF...');
         const area = document.getElementById("print-area");
         area.innerHTML = gerarConteudoParaImpressao();
-  console.log('✅ Conteúdo do receituário inserido.');
 
         await new Promise(resolve => setTimeout(resolve, 500));
         const canvas = await html2canvas(area, { scale: 2 });
-  console.log('🖼️ Canvas gerado.');
         const imgData = canvas.toDataURL('image/png');
 
         // Usando jsPDF direto (versão legacy)
@@ -1518,11 +1539,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const width = pdf.internal.pageSize.getWidth();
         const height = (canvas.height * width) / canvas.width;
         pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-  console.log('🧾 PDF criado.');
 
         if (!compartilhar) {
             pdf.save('receituario-laudivet.pdf');
-  alert('✅ PDF gerado com sucesso!');
         } else {
             const blob = pdf.output('blob');
             const file = new File([blob], "receituario-laudivet.pdf", { type: "application/pdf" });
@@ -1538,8 +1557,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("Erro ao compartilhar: " + err.message);
                 }
             } else {
-                console.warn("❗Seu navegador não suporta compartilhamento de arquivos.");
-  alert("❗Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
+                alert("Seu navegador não suporta compartilhamento de arquivos. Baixe o PDF manualmente.");
             }
         }
     }
