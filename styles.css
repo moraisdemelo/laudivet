@@ -1,0 +1,52 @@
+:root {
+  --primary: #4CAF50;
+  --light: #fff;
+  --dark-gray: #666;
+  --border-gray: #ccc;
+}
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+.form-container {
+  max-width: 400px;
+  margin: auto;
+}
+.form-container label {
+  display: block;
+  margin-top: 10px;
+}
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+#print-area, #pdfContent {
+  width: 595px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.watermark {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  opacity: 0.1;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+.watermark img { width: 200px; }
+.print-area * { position: relative; z-index: 1; }
+.header { text-align: center; margin-bottom: 10px; }
+.logo { width: 120px; }
+.doctor-name { font-size: 16px; margin-bottom: 20px; }
+.section { margin-bottom: 20px; }
+.section h3 { color: var(--primary); font-size: 14px; margin-bottom: 5px; }
+.section hr { border: none; border-top: 1px solid var(--border-gray); margin-bottom: 10px; }
+.signature { text-align: center; margin-top: 20px; }
+.footer { font-size: 10px; color: var(--dark-gray); text-align: center; margin-top: 20px; }
+#btnPdf { display: block; margin: 20px auto; padding: 10px 20px; background: var(--primary); color: var(--light); border: none; border-radius: 4px; cursor: pointer; }
