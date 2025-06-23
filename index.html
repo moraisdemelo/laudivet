@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Receituário PetCare Laudi</title>
+  <title>Receituário LaudiVet</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #27ae60; --light: #ffffff; --dark-gray: #555555; --border-gray: #e0e0e0; --radius: 8px; }
@@ -28,9 +28,9 @@
     .section { margin-bottom: 20px; }
     .section h3 { margin: 0; font-size: 16px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
     .section hr { border: none; height: 1px; background: var(--border-gray); margin: 8px 0 12px; }
-    .section p { margin: 6px 0; white-space: pre-wrap; }
+    .section p { margin: 6px 0; }
     .signature { margin-top: 32px; z-index: 1; }
-    .signature .details { font-size: 14px; color: var(--dark-gray); margin-bottom: 8px; text-align: right; white-space: pre-wrap; }
+    .signature .details { font-size: 14px; color: var(--dark-gray); margin-bottom: 8px; text-align: right; }
     .signature .sign-line { width: 200px; border-bottom: 1px solid var(--dark-gray); margin: 0 auto 6px; }
     .signature .doctor-name { font-weight: 700; font-size: 15px; color: var(--dark-gray); letter-spacing: 0.5px; text-align: center; }
     .footer { text-align: center; font-size: 10px; color: var(--dark-gray); opacity: 0.7; margin-top: 24px; z-index: 1; }
@@ -63,19 +63,16 @@
       <img src="watermark.png" alt="">
     </div>
     <div class="section">
-      <h3>Dados do Paciente</h3>
-      <hr>
+      <h3>Dados do Paciente</h3><hr>
       <p><strong>Tutor:</strong> <span id="tutorField"></span></p>
       <p><strong>Animal:</strong> <span id="animalField"></span></p>
     </div>
     <div class="section">
-      <h3>Prescrição</h3>
-      <hr>
+      <h3>Prescrição</h3><hr>
       <p id="prescricaoField"></p>
     </div>
     <div class="section">
-      <h3>Recomendações</h3>
-      <hr>
+      <h3>Recomendações</h3><hr>
       <p id="recomendacoesField"></p>
     </div>
     <div class="signature">
@@ -103,8 +100,9 @@
       const data = new Date().toLocaleDateString('pt-BR');
       document.getElementById('tutorField').textContent = tutor;
       document.getElementById('animalField').textContent = animal;
-      document.getElementById('prescricaoField').textContent = prescricao;
-      document.getElementById('recomendacoesField').textContent = recomendacoes;
+      // Preservar formatação sem regexliteral
+      document.getElementById('prescricaoField').innerHTML = prescricao.split('\n').join('<br>');
+      document.getElementById('recomendacoesField').innerHTML = recomendacoes.split('\n').join('<br>');
       document.getElementById('dataField').textContent = data;
       const content = document.getElementById('pdfContent');
       content.style.display = 'block';
