@@ -6,158 +6,33 @@
   <title>Receituário LaudiVet</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #27ae60;
-      --light: #ffffff;
-      --dark-gray: #555555;
-      --border-gray: #e0e0e0;
-      --radius: 8px;
-    }
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: 'Roboto', sans-serif;
-      background: #f0f2f5;
-      color: #333333;
-    }
-    .form-container {
-      max-width: 450px;
-      margin: 0 auto 40px;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: var(--radius);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 18px;
-      color: var(--primary);
-      letter-spacing: 1px;
-    }
-    .form-container label {
-      display: block;
-      margin-top: 14px;
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .form-container input,
-    .form-container textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid var(--border-gray);
-      border-radius: var(--radius);
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .btn-action {
-      flex: 1;
-      padding: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    #btnPdf {
-      background: var(--primary);
-      color: var(--light);
-    }
-    #btnPdf:hover {
-      background: #219150;
-    }
-    #btnShare {
-      background: #4a90e2;
-      color: var(--light);
-    }
-    #btnShare:hover {
-      background: #3a7bc1;
-    }
-    /* PDF content */
-    #pdfContent {
-      width: 595px;
-      margin: 0 auto;
-      background: var(--light);
-      padding: 30px;
-      border-radius: var(--radius);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      position: relative;
-      font-size: 14px;
-      color: #333333;
-      display: none;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 12px;
-    }
-    .logo {
-      max-width: 100px;
-      height: auto;
-    }
-    .doctor-info {
-      text-align: right;
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--dark-gray);
-      line-height: 1.2;
-    }
-    .watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg);
-      opacity: 0.08;
-      pointer-events: none;
-      max-width: 300px;
-      z-index: 0;
-    }
-    .section h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .signature {
-      margin-top: 32px;
-      z-index: 1;
-      text-align: left;
-    }
-    .signature .details {
-      font-size: 14px;
-      color: var(--dark-gray);
-      margin-bottom: 8px;
-    }
-    .sign-line {
-      width: 200px;
-      border-bottom: 1px solid var(--dark-gray);
-      margin-bottom: 6px;
-    }
-    .doctor-name {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--dark-gray);
-      letter-spacing: 0.5px;
-    }
-    .footer {
-      text-align: center;
-      font-size: 10px;
-      color: var(--dark-gray);
-      opacity: 0.7;
-      margin-top: 24px;
-      z-index: 1;
-    }
+    :root { --primary: #27ae60; --light: #ffffff; --dark-gray: #555555; --border-gray: #e0e0e0; --radius: 8px; }
+    body { margin: 0; padding: 20px; font-family: 'Roboto', sans-serif; background: #f0f2f5; color: #333333; }
+    .form-container { max-width: 450px; margin: 0 auto 40px; background: #ffffff; padding: 25px; border-radius: var(--radius); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .form-container h2 { text-align: center; margin-bottom: 18px; color: var(--primary); letter-spacing: 1px; }
+    .form-container label { display: block; margin-top: 14px; font-weight: 500; font-size: 14px; }
+    .form-container input, .form-container textarea { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid var(--border-gray); border-radius: var(--radius); font-size: 14px; box-sizing: border-box; }
+    .button-group { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-action { flex: 1; padding: 12px; font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.3s; }
+    #btnPdf { background: var(--primary); color: var(--light); }
+    #btnPdf:hover { background: #219150; }
+    #btnShare { background: #4a90e2; color: var(--light); }
+    #btnShare:hover { background: #3a7bc1; }
+    #pdfContent { width: 595px; margin: 0 auto; background: var(--light); padding: 30px; border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; font-size: 14px; color: #333333; display: none; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; border-bottom: 2px solid var(--primary); padding-bottom: 12px; }
+    .logo { max-width: 100px; height: auto; }
+    .doctor-info { text-align: right; font-weight: 700; font-size: 16px; color: var(--dark-gray); line-height: 1.2; }
+    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg); opacity: 0.08; pointer-events: none; max-width: 300px; z-index: 0; }
+    .watermark img { width: 100%; height: auto; }
+    .section { margin-bottom: 20px; }
+    .section h3 { margin: 0; font-size: 16px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .section hr { border: none; height: 1px; background: var(--border-gray); margin: 8px 0 12px; }
+    .section p { margin: 6px 0; }
+    .signature { margin-top: 32px; z-index: 1; }
+    .signature .details { font-size: 14px; color: var(--dark-gray); margin-bottom: 8px; text-align: right; }
+    .signature .sign-line { width: 200px; border-bottom: 1px solid var(--dark-gray); margin: 0 auto 6px; }
+    .signature .doctor-name { font-weight: 700; font-size: 15px; color: var(--dark-gray); letter-spacing: 0.5px; text-align: center; }
+    .footer { text-align: center; font-size: 10px; color: var(--dark-gray); opacity: 0.7; margin-top: 24px; z-index: 1; }
   </style>
 </head>
 <body>
@@ -178,28 +53,28 @@
       </div>
     </form>
   </div>
-
   <div id="pdfContent">
     <div class="header">
       <img src="logo.png" class="logo" alt="LaudiVet">
-      <div class="doctor-info">
-        M.V. Laudiceia de Jesus Morais<br>CRMV-MA 2274
-      </div>
+      <div class="doctor-info">M.V. Laudiceia de Jesus Morais<br>CRMV-MA 2274</div>
     </div>
     <div class="watermark">
       <img src="watermark.png" alt="">
     </div>
     <div class="section">
-      <h3>Dados do Paciente</h3><hr>
+      <h3>Dados do Paciente</h3>
+      <hr>
       <p><strong>Tutor:</strong> <span id="tutorField"></span></p>
       <p><strong>Animal:</strong> <span id="animalField"></span></p>
     </div>
     <div class="section">
-      <h3>Prescrição</h3><hr>
+      <h3>Prescrição</h3>
+      <hr>
       <p id="prescricaoField"></p>
     </div>
     <div class="section">
-      <h3>Recomendações</h3><hr>
+      <h3>Recomendações</h3>
+      <hr>
       <p id="recomendacoesField"></p>
     </div>
     <div class="signature">
@@ -208,12 +83,44 @@
       <p class="doctor-name">Laudiceia de Jesus Morais</p>
     </div>
     <div class="footer">
-      Rua Tamandaré, 383 – Mercadinho – Imperatriz/MA<br>(99) 98524-1878 – jesus_laudiceia17@hotmail.com – @_laudi27
+      Rua Tamandaré, 383 – Mercadinho – Imperatriz/MA<br>
+      (99) 98524-1878 – jesus_laudiceia17@hotmail.com – @_laudi27
     </div>
   </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('btnPdf').addEventListener('click', () => generateOrShare(false));
+      document.getElementById('btnShare').addEventListener('click', () => generateOrShare(true));
+    });
+    async function generateOrShare(share) {
+      const tutor = document.getElementById('tutorInput').value;
+      const animal = document.getElementById('animalInput').value;
+      const prescricao = document.getElementById('prescricaoInput').value;
+      const recomendacoes = document.getElementById('recomendacoesInput').value;
+      const data = new Date().toLocaleDateString('pt-BR');
+      document.getElementById('tutorField').textContent = tutor;
+      document.getElementById('animalField').textContent = animal;
+      document.getElementById('prescricaoField').textContent = prescricao;
+      document.getElementById('recomendacoesField').textContent = recomendacoes;
+      document.getElementById('dataField').textContent = data;
+      const content = document.getElementById('pdfContent');
+      content.style.display = 'block';
+      const canvas = await html2canvas(content, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p','pt','a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = canvas.height * pageWidth / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+      if (share && navigator.canShare && navigator.canShare({ files: [ new File([pdf.output('blob')], 'receituario.pdf', { type: 'application/pdf' }) ] })) {
+        await navigator.share({ files: [ new File([pdf.output('blob')], 'receituario.pdf', { type: 'application/pdf' }) ], title: 'Receituário LaudiVet' });
+      } else {
+        pdf.save('receituario.pdf');
+      }
+      content.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
