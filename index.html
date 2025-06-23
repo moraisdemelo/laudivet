@@ -23,7 +23,7 @@
     .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; border-bottom: 2px solid var(--primary); padding-bottom: 12px; }
     .logo { max-width: 100px; height: auto; }
     .doctor-info { text-align: right; font-weight: 700; font-size: 16px; color: var(--dark-gray); line-height: 1.2; }
-    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; max-width: 300px; z-index: 0; }
+    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.20; pointer-events: none; max-width: 300px; z-index: 0; }
     .watermark img { width: 100%; height: auto; }
     .section { margin-bottom: 20px; }
     .section h3 { margin: 0; font-size: 16px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -63,16 +63,19 @@
       <img src="watermark.png" alt="">
     </div>
     <div class="section">
-      <h3>Dados do Paciente</h3><hr>
+      <h3>Dados do Paciente</h3>
+      <hr>
       <p><strong>Tutor:</strong> <span id="tutorField"></span></p>
       <p><strong>Animal:</strong> <span id="animalField"></span></p>
     </div>
     <div class="section">
-      <h3>Prescrição</h3><hr>
+      <h3>Prescrição</h3>
+      <hr>
       <p id="prescricaoField"></p>
     </div>
     <div class="section">
-      <h3>Recomendações</h3><hr>
+      <h3>Recomendações</h3>
+      <hr>
       <p id="recomendacoesField"></p>
     </div>
     <div class="signature">
@@ -100,7 +103,6 @@
       const data = new Date().toLocaleDateString('pt-BR');
       document.getElementById('tutorField').textContent = tutor;
       document.getElementById('animalField').textContent = animal;
-      // Preservar formatação sem regexliteral
       document.getElementById('prescricaoField').innerHTML = prescricao.split('\n').join('<br>');
       document.getElementById('recomendacoesField').innerHTML = recomendacoes.split('\n').join('<br>');
       document.getElementById('dataField').textContent = data;
